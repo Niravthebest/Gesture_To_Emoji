@@ -1,0 +1,115 @@
+ 
+<html>
+    <head>
+      <title>Gesture To Emoji</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+      <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+    <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+  
+    <body>
+    <div class="container">
+    
+      <center>
+        <h3 class="btn btn-warning">GESTURE TO EMOJI APP
+          <br>
+          <span>&#9996;</span>
+          <span>&#128076;</span>
+          <span>&#128075;</span>
+          <span>&#128077;</span>
+          <span>&#129304;</span>
+          <span>&#9994;</span>        
+        </h3>
+        <br><br>
+  
+        <p style="font-size: 22px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color:black;">Take your selfie to generate emoji
+            <br>
+          <b style="color: black">Is it a Thumbs up?</b>
+          <br><br>
+          <b style="color: green">Peace?</b>
+          <br><br>
+          <b style="color: red">Or maybe Rock?</b>
+          <br><br>
+        </p>
+  
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <label>Webcam View - </label>
+          <div id="camera"></div>
+          <br><br>
+          <button onclick="take_snapshot();" class="btn btn-warning">Capture Image</button>
+        </div>
+  
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <label>Prediction 1 - </label>
+          <p class="gesture_name" id="result_gesture_name"></p>
+          <p class="emoji" id="update_emoji"></p>
+  
+          <label>Prediction 2 - </label>
+          <p class="gesture_name2" id="result_gesture_name2"></p>
+          <p class="emoji" id="update_emoji2"></p>
+        </div>
+  
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <label>Snapshot - </label>
+          <div id="result"></div>
+          <br><br>
+          <button onclick="check();" class="btn btn-success">Predict Emotion</button>
+        </div>
+  
+      </center>
+  
+    </div>
+  
+  <script>
+    Webcam.set({
+    width:350,
+    height:300,
+    image_format: "png",
+    png_quality:90
+});
+
+camera = document.getElementById("camera");
+
+Webcam.attach('#camera');
+
+function take_snapshot() {
+    Webcam.snap(function(data_uri) {
+        document.getElementById("result").innerHTML = '<img id="captured_image" src="'+data_uri+'"/>';
+});
+}
+
+console.log('ml5 version: ',ml5.version);
+
+classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/Y26-dJbcK/model.json');
+
+function modelLoaded() {
+    console.log('Model has been Loaded!');
+}
+
+function speak() {
+    var synth = window.speechSynthesis;
+    speak_data_1 = "Prediction 1 - " + prediction_1;
+    speak_data_2 = "Prediction 2 - " + prediction_2;
+    var utterThis = new SpeechSynthesisUtterance(speak_data_1 + speak_data_2);
+    synth.speak(utterThis);
+}
+  </script>
+  
+  <style>
+    body {
+      background-color: #13a4dd;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='32' viewBox='0 0 16 32'%3E%3Cg fill='%233acc74' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 24h4v2H0v-2zm0 4h6v2H0v-2zm0-8h2v2H0v-2zM0 0h4v2H0V0zm0 4h2v2H0V4zm16 20h-6v2h6v-2zm0 4H8v2h8v-2zm0-8h-4v2h4v-2zm0-20h-6v2h6V0zm0 4h-4v2h4V4zm-2 12h2v2h-2v-2zm0-8h2v2h-2V8zM2 8h10v2H2V8zm0 8h10v2H2v-2zm-2-4h14v2H0v-2zm4-8h6v2H4V4zm0 16h6v2H4v-2zM6 0h2v2H6V0zm0 24h2v2H6v-2z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+
+  </style>
+    </body>
+  </html>
+  
+   
